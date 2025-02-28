@@ -281,7 +281,7 @@ const Calendar = () => {
         ))}
         
         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
-          <div key={`empty-${index}`} className="h-24 bg-gray-800/50 rounded-lg" />
+          <div key={`empty-${index}`} className="block-inv" />
         ))}
         
         {Array.from({ length: daysInMonth }).map((_, index) => {
@@ -291,7 +291,8 @@ const Calendar = () => {
           return (
             <div
               key={day}
-              className="h-24 bg-gray-800 rounded-lg p-2 hover:bg-gray-700 transition-colors overflow-y-auto"
+              /*className="h-24 bg-gray-800 rounded-lg p-2 hover:bg-gray-700 transition-colors overflow-y-auto"*/
+              className="block2"
             >
               <div className="text-gray-400 mb-1">{day}</div>
               {daySessions.map((session) => (

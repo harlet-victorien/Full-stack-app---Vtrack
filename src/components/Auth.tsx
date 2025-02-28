@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
@@ -27,13 +28,20 @@ export default function Auth() {
 
     try {
       if (isSignUp) {
-        await signUp(email, password);
+        // Create the account using the AuthContext signUp function which now returns a user
+        const user = await signUp(email, password);
+        // Once the account is created, insert a new profile record in the profiles table
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([{ id: user.id, name: email.split('@')[0], avatar: '' }]);
+        if (profileError) {
+          throw new Error('Failed to create user profile.');
+        }
       } else {
         await signIn(email, password);
       }
     } catch (err) {
       if (err instanceof Error) {
-        // Handle specific error messages
         if (err.message.includes('weak_password')) {
           setError('Password is too weak. It must be at least 6 characters long.');
         } else if (err.message.includes('Database error')) {
