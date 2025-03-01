@@ -51,11 +51,15 @@ function App() {
           </div>
           <button
             onClick={() => signOut()}
-            className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-800 text-gray-400 hover:bg-gray-700"
+            className="text-white py-3.5 px-6 bg-[rgb(97,0,0)] rounded-lg font-bold text-lg shadow-[inset_-3px_-3px_9px_rgba(255,255,255,0.25),inset_0px_3px_9px_rgba(255,255,255,0.3),inset_0px_1px_1px_rgba(255,255,255,0.6),inset_0px_-8px_36px_rgba(0,0,0,0.3),inset_0px_1px_5px_rgba(255,255,255,0.6),2px_19px_31px_rgba(0,0,0,0.2)] absolute right-5 top-5 cursor-pointer select-none transition-all duration-500 transform hover:scale-105"
+
           >
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>
           </button>
+          
+
+
         </div>
 
         {activeTab === 'calendar' ? <Calendar /> : <SportRecap />}
