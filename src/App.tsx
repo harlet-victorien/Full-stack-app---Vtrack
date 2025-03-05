@@ -22,50 +22,71 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setActiveTab('calendar')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
-                activeTab === 'calendar'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-800 text-gray-400'
-              }`}
-            >
-              <CalendarIcon className="w-5 h-5" />
-              <span>Calendar</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('recap')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
-                activeTab === 'recap'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-800 text-gray-400'
-              }`}
-            >
-              <Activity className="w-5 h-5" />
-              <span>Sport Recap</span>
-            </button>
-          </div>
+    <div className="flex min-h-screen bg-primary text-white">
+      {/* Sidebar */}
+      <div className="w-64 bg-darker p-6 flex flex-col fixed h-screen items-center top-0 border-r border-r-white/20 rounded-r-xl">
+        <nav className="space-y-4 items-center flex flex-col mb-auto pt-20"> 
+          <button
+            onClick={() => setActiveTab('calendar')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
+              activeTab === 'calendar'
+                ? 'text-white text-xl text-shadow '
+                : 'text-white/30 text-xl'
+            }`}
+            style={
+              activeTab === 'calendar'
+                ? { textShadow: '0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)' }
+                : {}
+            }
+          >
+            <CalendarIcon className="w-5 h-5" />
+            <span>Calendar</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('recap')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
+              activeTab === 'recap'
+                ? 'text-white text-xl' 
+                : 'text-white/30 text-xl'
+            }`}
+            style={
+              activeTab === 'recap'
+                ? { textShadow: '0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)' }
+                : {}
+            }
+          >
+            <Activity className="w-5 h-5" />
+            <span>Sport Recap</span>
+          </button>
+        </nav>
+        <div className="mt-auto items-center">
           <button
             onClick={() => signOut()}
-            className="text-white py-3.5 px-6 bg-[rgb(97,0,0)] rounded-lg font-bold text-lg shadow-[inset_-3px_-3px_9px_rgba(255,255,255,0.25),inset_0px_3px_9px_rgba(255,255,255,0.3),inset_0px_1px_1px_rgba(255,255,255,0.6),inset_0px_-8px_36px_rgba(0,0,0,0.3),inset_0px_1px_5px_rgba(255,255,255,0.6),2px_19px_31px_rgba(0,0,0,0.2)] absolute right-5 top-5 cursor-pointer select-none transition-all duration-500 transform hover:scale-105"
-
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xl text-gray-400 hover:bg-cardinal hover:text-white"
           >
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>
           </button>
-          
-
-
         </div>
-
-        {activeTab === 'calendar' ? <Calendar /> : <SportRecap />}
+      </div>
+  
+      {/* Main Content */}
+      <div className="flex-1 p-6 ml-64 mt-0 items-center">
+        <h1 className="text-5xl font-bold mb-6 p-10 text-center" style={{ textShadow: '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.15)' }}>
+          {new Date().toLocaleDateString('default', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })}
+        </h1>
+        <div className="max-w-6xl mx-auto">
+          {activeTab === 'calendar' ? <Calendar /> : <SportRecap />}
+        </div>
       </div>
     </div>
   );
+  
 }
 
 export default App;
