@@ -154,7 +154,7 @@ const Calendar = () => {
       <div className="flex mb-4">
         <button
           onClick={() => setIsAddingSession(true)}
-          className="bg-cardinal text-white rounded px-4 py-2 hover:bg-white hover:text-black transition-colors"
+          className="bg-cardinal text-white font-bold rounded px-4 py-2 hover:bg-white hover:text-black transition-colors"
         >
           New
         </button>
@@ -262,34 +262,20 @@ const Calendar = () => {
             >
               <div className="text-gray-400 mb-1">{day}</div>
               {daySessions.map((session) => (
-                <div
+                <button
+                  onClick={() => {
+                    setEditingSession(session);
+                    setFormData({
+                      date: session.date,
+                      sport: session.sport,
+                      duration: session.duration,
+                      notes: session.notes || '',
+                    });
+                  }}
                   key={session.id}
-                  className="text-xs ml-4 bg-darker text-blue-300 rounded-full w-8 h-8 px-2 py-2 mb-3 flex items-center justify-between group"
-                >
-                  <span></span>
-                  <div className="hidden group-hover:flex items-center space-x-1">
-                    <button
-                      onClick={() => {
-                        setEditingSession(session);
-                        setFormData({
-                          date: session.date,
-                          sport: session.sport,
-                          duration: session.duration,
-                          notes: session.notes || '',
-                        });
-                      }}
-                      className="p-1 hover:bg-blue-400/20 rounded"
-                    >
-                      <Edit2 className="w-3 h-3" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(session.id)}
-                      className="p-1 hover:bg-red-400/20 rounded"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
+                  className="text-xs ml-4 bg-darker text-blue-300 text-center rounded-full w-10 h-10 px-2 py-2 mb-3 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
+                >🏀                   
+                </button>
               ))}
             </div>
           );
