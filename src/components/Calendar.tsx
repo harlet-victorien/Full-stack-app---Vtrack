@@ -150,6 +150,15 @@ const Calendar = () => {
 
   return (
     <div className="p-6 bg-darker rounded-lg border border-white/20">
+      {/* Button to open the modal */}
+      <div className="flex mb-4">
+        <button
+          onClick={() => setIsAddingSession(true)}
+          className="bg-cardinal text-white rounded px-4 py-2 hover:bg-white hover:text-black transition-colors"
+        >
+          New
+        </button>
+      </div>
       {/* Modal for adding or editing a session */}
       {(isAddingSession || editingSession) && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
@@ -248,14 +257,14 @@ const Calendar = () => {
           return (
             <div
               key={day}
-              className="h-32 w-32 bg-dark rounded-lg p-2 m-2 hover:bg-cardinal transition-colors overflow-y-auto border border-white/10 hover:border-cardinal"
+              className="h-32 w-32 bg-dark text-right rounded-lg p-2 m-2 hover:bg-cardinal transition-colors duration-500 overflow-y-auto border border-white/10 hover:border-cardinal"
               /*className="block2"*/
             >
               <div className="text-gray-400 mb-1">{day}</div>
               {daySessions.map((session) => (
                 <div
                   key={session.id}
-                  className="text-xs ml-4 bg-darker text-blue-300 rounded-full w-8 h-8 px-2 py-1 mb-1 flex items-center justify-between group"
+                  className="text-xs ml-4 bg-darker text-blue-300 rounded-full w-8 h-8 px-2 py-2 mb-3 flex items-center justify-between group"
                 >
                   <span></span>
                   <div className="hidden group-hover:flex items-center space-x-1">
@@ -291,13 +300,13 @@ const Calendar = () => {
         <div className="flex pt-2">
           <button
             onClick={prevMonth}
-            className="p-2 hover:bg-gray-800 rounded-full mr-auto"
+            className="p-2 hover:bg-cardinal rounded-full mr-auto"
           >
             <ChevronLeft className="w-5 h-5 text-gray-400" />
           </button>
           <button
             onClick={nextMonth}
-            className="p-2 hover:bg-gray-800 rounded-full"
+            className="p-2 hover:bg-cardinal rounded-full"
           >
             <ChevronRight className="w-5 h-5 text-gray-400 mr-0" />
           </button>
