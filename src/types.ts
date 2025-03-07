@@ -3,7 +3,7 @@ export type Sport = 'running' | 'cycling' | 'swimming' | 'gym' | 'tennis' | 'bas
 export interface Session {
   id: string;
   date: string;
-  sport: Sport;
+  sport_id: string;
   duration: number; // in minutes
   notes?: string;
   userId: string;

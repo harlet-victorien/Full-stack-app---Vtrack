@@ -1,13 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar as CalendarIcon, Activity, LogOut } from 'lucide-react';
 import Calendar from './components/Calendar';
 import SportRecap from './components/SportRecap';
 import Auth from './components/Auth';
+import { supabase } from './lib/supabase';
 import { useAuth } from './contexts/AuthContext';
 
 function App() {
-  const [activeTab, setActiveTab] = React.useState<'calendar' | 'recap'>('calendar');
+  const [activeTab, setActiveTab] = useState<'calendar' | 'recap'>('calendar');
   const { user, loading, signOut } = useAuth();
+  const [sportsList, setSportsList] = useState<{ name: string; emoji: string }[]>([]);
+  
+  useEffect(() => {
+    const fetchSports = async () => {
+      const { data, error } = await supabase
+        .from('sports')
+        .select('name, emoji');
+      if (error) {
+        console.error('Error fetching sports:', error);
+        return;
+      }
+      console.log(data[0].name);
+      setSportsList(data);
+    };
+    fetchSports();
+  }, []);
+
+  useEffect(() => {
+    console.log('Updated sportsList:', sportsList);
+  }, [sportsList]);
 
   if (loading) {
     return (
@@ -30,14 +51,9 @@ function App() {
             onClick={() => setActiveTab('calendar')}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
               activeTab === 'calendar'
-                ? 'text-white text-xl text-shadow '
+                ? 'text-white text-xl'
                 : 'text-white/30 text-xl'
             }`}
-            style={
-              activeTab === 'calendar'
-                ? { textShadow: '0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)' }
-                : {}
-            }
           >
             <CalendarIcon className="w-5 h-5" />
             <span>Calendar</span>
@@ -46,14 +62,9 @@ function App() {
             onClick={() => setActiveTab('recap')}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
               activeTab === 'recap'
-                ? 'text-white text-xl' 
+                ? 'text-white text-xl'
                 : 'text-white/30 text-xl'
             }`}
-            style={
-              activeTab === 'recap'
-                ? { textShadow: '0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3)' }
-                : {}
-            }
           >
             <Activity className="w-5 h-5" />
             <span>Sport Recap</span>
@@ -72,21 +83,30 @@ function App() {
   
       {/* Main Content */}
       <div className="flex-1 p-6 ml-64 mt-0 items-center">
-        <h1 className="text-5xl font-bold mb-6 p-10 text-center" style={{ textShadow: '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.15)' }}>
+        <h1
+          className="text-5xl font-bold mb-6 p-10 text-center"
+          style={{
+            textShadow:
+              '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.15)',
+          }}
+        >
           {new Date().toLocaleDateString('default', {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
-            year: 'numeric'
+            year: 'numeric',
           })}
         </h1>
         <div className="max-w-6xl mx-auto">
-          {activeTab === 'calendar' ? <Calendar /> : <SportRecap />}
+          {activeTab === 'calendar' ? (
+            <Calendar sportsList={sportsList} />
+          ) : (
+            <SportRecap sportsList={sportsList} />
+          )}
         </div>
       </div>
     </div>
   );
-  
 }
 
 export default App;

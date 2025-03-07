@@ -10,6 +10,7 @@ export default {
         cardinal: '#641200',
       },
       h: {
+        156: '0.1rem',
         10: '2.5rem',
         100: '25rem',
         120: '30rem',
