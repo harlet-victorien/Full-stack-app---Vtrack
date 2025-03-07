@@ -106,7 +106,7 @@ const SportRecap = () => {
         </div>
         <div className="space-y-4">
           {sessions.slice(0, 10).map((session) => (
-            <div key={session.id} className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg">
+            <div key={session.id} className="animate-fade-in relative w-full overflow-hidden flex flex-col items-center justify-between bg-purple-200/5 border-white/10 transition-opacity border h-[180px] lg:h-[220px] rounded py-12 px-4 gap-8">
               <div>
                 <div className="text-white font-medium">
                   {new Date(session.date).toLocaleDateString()}

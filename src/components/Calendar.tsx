@@ -238,7 +238,7 @@ const Calendar = () => {
         ))}
         
         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
-          <div key={`empty-${index}`} className="block-inv" />
+          <div key={`empty-${index}`} className="h-32 w-32 bg-dark rounded-lg p-2 m-2 transition-colors overflow-y-auto" />
         ))}
         
         {Array.from({ length: daysInMonth }).map((_, index) => {
@@ -248,16 +248,16 @@ const Calendar = () => {
           return (
             <div
               key={day}
-              /*className="h-24 bg-gray-800 rounded-lg p-2 hover:bg-gray-700 transition-colors overflow-y-auto"*/
-              className="block2"
+              className="h-32 w-32 bg-dark rounded-lg p-2 m-2 hover:bg-cardinal transition-colors overflow-y-auto border border-white/10 hover:border-cardinal"
+              /*className="block2"*/
             >
               <div className="text-gray-400 mb-1">{day}</div>
               {daySessions.map((session) => (
                 <div
                   key={session.id}
-                  className="text-xs bg-blue-500/20 text-blue-300 rounded px-2 py-1 mb-1 flex items-center justify-between group"
+                  className="text-xs ml-4 bg-darker text-blue-300 rounded-full w-8 h-8 px-2 py-1 mb-1 flex items-center justify-between group"
                 >
-                  <span>{session.sport} - {session.duration}min</span>
+                  <span></span>
                   <div className="hidden group-hover:flex items-center space-x-1">
                     <button
                       onClick={() => {
