@@ -1,10 +1,11 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Activity, BarChart3 } from 'lucide-react';
-import { Session, Sport } from '../types';
+import { Session } from '../types';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 
 interface SportItem {
+  id: string;
   name: string;
   emoji: string;
 }
@@ -15,7 +16,7 @@ interface SportRecapProps {
 
 const SportRecap = ({ sportsList }: SportRecapProps) => {
   const [selectedSport, setSelectedSport] = useState<string>(
-    sportsList[0]?.name || 'running'
+    sportsList[0]?.id
   );
   const [sessions, setSessions] = useState<Session[]>([]);
   const { user } = useAuth();
@@ -68,11 +69,11 @@ const SportRecap = ({ sportsList }: SportRecapProps) => {
         </div>
         <div className="flex space-x-2">
           {sportsList.map((sport) => {
-            const isSelected = sport.name === selectedSport;
+            const isSelected = sport.id === selectedSport;
             return (
               <div className="flex flex-col items-center justify-center space-y-2" key={sport.name}>
                 <button
-                  onClick={() => setSelectedSport(sport.name)}
+                  onClick={() => setSelectedSport(sport.id)}
                   className={`px-4 py-1 transition-colors duration-500 ${
                     isSelected ? 'text-white' : 'text-white/50 hover:text-white/75'
                   }`}

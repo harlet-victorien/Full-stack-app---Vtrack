@@ -1,4 +1,3 @@
-export type Sport = 'running' | 'cycling' | 'swimming' | 'gym' | 'tennis' | 'basketball';
 
 export interface Session {
   id: string;

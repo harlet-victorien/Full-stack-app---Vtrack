@@ -9,13 +9,13 @@ import { useAuth } from './contexts/AuthContext';
 function App() {
   const [activeTab, setActiveTab] = useState<'calendar' | 'recap'>('calendar');
   const { user, loading, signOut } = useAuth();
-  const [sportsList, setSportsList] = useState<{ name: string; emoji: string }[]>([]);
+  const [sportsList, setSportsList] = useState<{ id: string; name: string; emoji: string }[]>([]);
   
   useEffect(() => {
     const fetchSports = async () => {
       const { data, error } = await supabase
         .from('sports')
-        .select('name, emoji');
+        .select('id, name, emoji');
       if (error) {
         console.error('Error fetching sports:', error);
         return;

@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 
 interface SportItem {
+  id: string;
   name: string;
   emoji: string;
 }
@@ -20,7 +21,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
   const [editingSession, setEditingSession] = useState<Session | null>(null);
   const [formData, setFormData] = useState({
     date: '',
-    sport: sportsList[0]?.name || 'running',
+    sport_id: sportsList[0]?.id,
     duration: 30,
     notes: '',
   });
@@ -97,7 +98,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
   
       setIsAddingSession(false);
       setEditingSession(null);
-      setFormData({ date: '', sport: sportsList[0]?.name || 'running', duration: 30, notes: '' });
+      setFormData({ date: '', sport_id: sportsList[0]?.id, duration: 30, notes: '' });
       fetchSessions();
     } catch (err) {
       console.error('Error submitting form:', err);
@@ -167,13 +168,13 @@ const Calendar = ({ sportsList }: CalendarProps) => {
               <div>
                 <label className="block text-sm font-medium text-gray-400">Sport</label>
                 <select
-                  value={formData.sport}
-                  onChange={(e) => setFormData({ ...formData, sport: e.target.value })}
+                  value={formData.sport_id}
+                  onChange={(e) => setFormData({ ...formData, sport_id: e.target.value })}
                   className="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white px-3 py-2"
                   required
                 >
                   {sportsList.map((sport) => (
-                    <option key={sport.name} value={sport.name}>
+                    <option key={sport.id} value={sport.id}>
                       {sport.emoji} {sport.name.charAt(0).toUpperCase() + sport.name.slice(1)}
                     </option>
                   ))}
@@ -249,7 +250,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
               <div className="grid grid-cols-2 grid-rows-2 gap-2 p-4 place-items-center">
               {daySessions.map((session) => {
                 // Lookup the sport using the sport_id key from the session
-                const sport = sportsList.find((s) => s.name === session.sport_id);
+                const sport = sportsList.find((s) => s.id === session.sport_id);
                 return (
                   <button
                     key={session.id}
@@ -257,14 +258,14 @@ const Calendar = ({ sportsList }: CalendarProps) => {
                       setEditingSession(session);
                       setFormData({
                         date: session.date,
-                        sport: session.sport_id, // use sport_id here
+                        sport_id: session.sport_id, // use sport_id here
                         duration: session.duration,
                         notes: session.notes || '',
                       });
                     }}
                     className="text-xs bg-darker m-0 text-center rounded-full w-10 h-10 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
                   >
-                    {sport?.emoji || '🏀'}
+                    {sport?.emoji}
                   </button>
                 );
               })}
