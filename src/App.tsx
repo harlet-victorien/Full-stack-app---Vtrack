@@ -73,7 +73,7 @@ function App() {
         <div className="mt-auto items-center">
           <button
             onClick={() => signOut()}
-            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xl text-gray-400 hover:bg-cardinal hover:text-white"
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xl text-gray-400 hover:bg-cardinal hover:text-white transition-colors duration-300"
           >
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>

@@ -14,11 +14,16 @@ interface CalendarProps {
   sportsList: SportItem[];
 }
 
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison+
+
 const Calendar = ({ sportsList }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isAddingSession, setIsAddingSession] = useState(false);
   const [editingSession, setEditingSession] = useState<Session | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [sessionToDelete, setSessionToDelete] = useState<Session | null>(null);
   const [formData, setFormData] = useState({
     date: '',
     sport_id: sportsList[0]?.id,
@@ -149,28 +154,33 @@ const Calendar = ({ sportsList }: CalendarProps) => {
       </div>
       {/* Modal for adding or editing a session */}
       {(isAddingSession || editingSession) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-10">
-          <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-10"
+          onClick={() => {
+            setIsAddingSession(false);
+            setEditingSession(null);
+          }}
+        >
+          <div className="bg-darker p-6 rounded-lg w-full max-w-md border border-white/20" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-xl font-bold text-white mb-4">
               {editingSession ? 'Edit Session' : 'Add New Session'}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400">Date</label>
+                <label className="block text-sm font-medium text-left text-gray-400">Date</label>
                 <input
                   type="date"
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                  className="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white px-3 py-2"
+                  className="mt-1 block w-full rounded-md bg-dark text-white px-3 py-2 border border-white/20"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400">Sport</label>
+                <label className="block text-sm font-medium text-left text-gray-400">Sport</label>
                 <select
                   value={formData.sport_id}
                   onChange={(e) => setFormData({ ...formData, sport_id: e.target.value })}
-                  className="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white px-3 py-2"
+                  className="mt-1 block w-full rounded-md bg-dark text-white px-3 py-2 border border-white/20"
                   required
                 >
                   {sportsList.map((sport) => (
@@ -181,46 +191,82 @@ const Calendar = ({ sportsList }: CalendarProps) => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400">Duration (minutes)</label>
+                <label className="block text-sm font-medium text-left text-gray-400">Duration (minutes)</label>
                 <input
                   type="number"
                   value={formData.duration}
                   onChange={(e) =>
                     setFormData({ ...formData, duration: parseInt(e.target.value) })
                   }
-                  className="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white px-3 py-2"
+                  className="mt-1 block w-full rounded-md bg-dark text-white px-3 py-2 border border-white/20"
                   min="1"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400">Notes</label>
+                <label className="block text-sm font-medium text-left text-gray-400">Notes</label>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-white px-3 py-2"
+                  className="mt-1 block w-full rounded-md bg-dark text-white px-3 py-2 border border-white/20"
                   rows={3}
                 />
               </div>
               <div className="flex space-x-3">
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition-colors"
+                  className="flex-1 bg-cardinal text-white rounded-lg px-4 py-2 hover:bg-cardinal/50 transition-colors"
                 >
                   {editingSession ? 'Update' : 'Add'} Session
                 </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsAddingSession(false);
-                    setEditingSession(null);
-                  }}
-                  className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 hover:bg-gray-600 transition-colors"
-                >
-                  Cancel
-                </button>
+                
+                {editingSession && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSessionToDelete(editingSession);
+                      setIsDeleteModalOpen(true);
+                      setIsAddingSession(false);
+                      setEditingSession(null);
+                    }}
+                    className="flex-1 bg-dark text-white rounded-lg px-4 py-2 hover:bg-dark/50 transition-colors"
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-10"
+          onClick={() => setIsDeleteModalOpen(false)}
+        >
+          <div className="bg-darker p-6 rounded-lg w-full max-w-md border border-white/20" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-xl font-bold text-white mb-4">Confirm Delete</h3>
+            <p className="text-white mb-4">Are you sure you want to delete this session?</p>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => {
+                  if (sessionToDelete) {
+                    handleDelete(sessionToDelete.id);
+                  }
+                  setIsDeleteModalOpen(false);
+                }}
+                className="flex-1 bg-cardinal text-white rounded-lg px-4 py-2 hover:bg-cardinal/50 transition-colors"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="flex-1 bg-dark text-white rounded-lg px-4 py-2 hover:bg-dark/50 transition-colors"
+              >
+                No
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -240,39 +286,43 @@ const Calendar = ({ sportsList }: CalendarProps) => {
         ))}
         {Array.from({ length: daysInMonth }).map((_, index) => {
           const day = index + 1;
+          const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+          const isToday = dayDate.getTime() === today.getTime();
           const daySessions = getSessionsForDay(day);
           return (
             <div
               key={day}
-              className="h-32 w-32 bg-dark rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-y-auto border border-white/10 hover:border-cardinal"
+              className={`h-32 w-32 rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-y-auto border border-white/10 hover:border-cardinal ${
+                isToday ? 'bg-cardinal/50' : 'bg-dark'
+              }`}
             >
               <div className="text-gray-400 absolute ml-2 mt-1 z-0">{day}</div>
               <div className="grid grid-cols-2 grid-rows-2 gap-2 p-4 place-items-center">
-              {daySessions.map((session) => {
-                // Lookup the sport using the sport_id key from the session
-                const sport = sportsList.find((s) => s.id === session.sport_id);
-                return (
-                  <button
-                    key={session.id}
-                    onClick={() => {
-                      setEditingSession(session);
-                      setFormData({
-                        date: session.date,
-                        sport_id: session.sport_id, // use sport_id here
-                        duration: session.duration,
-                        notes: session.notes || '',
-                      });
-                    }}
-                    className="text-xs bg-darker m-0 text-center rounded-full w-10 h-10 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
-                  >
-                    {sport?.emoji}
-                  </button>
-                );
-              })}
+                {daySessions.map((session) => {
+                  const sport = sportsList.find((s) => s.id === session.sport_id);
+                  return (
+                    <button
+                      key={session.id}
+                      onClick={() => {
+                        setEditingSession(session);
+                        setFormData({
+                          date: session.date,
+                          sport_id: session.sport_id,
+                          duration: session.duration,
+                          notes: session.notes || '',
+                        });
+                      }}
+                      className="text-xs bg-darker m-0 text-center rounded-full w-10 h-10 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
+                    >
+                      {sport?.emoji}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           );
         })}
+
       </div>
       {/* Footer with navigation buttons */}
       <div className="flex pt-2">

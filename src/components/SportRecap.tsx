@@ -61,7 +61,7 @@ const SportRecap = ({ sportsList }: SportRecapProps) => {
   }, [sessions]);
 
   return (
-    <div className="p-6 bg-darker rounded-lg shadow-xl">
+    <div className="p-6 bg-darker rounded-lg border border-white/20">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <Activity className="w-6 h-6 text-cardinal" />
@@ -74,14 +74,14 @@ const SportRecap = ({ sportsList }: SportRecapProps) => {
               <div className="flex flex-col items-center justify-center space-y-2" key={sport.name}>
                 <button
                   onClick={() => setSelectedSport(sport.id)}
-                  className={`px-4 py-1 transition-colors duration-500 ${
+                  className={`px-4 py-1 transition-colors duration-500 text-sm ${
                     isSelected ? 'text-white' : 'text-white/50 hover:text-white/75'
                   }`}
                 >
                   {sport.emoji} {sport.name.charAt(0).toUpperCase() + sport.name.slice(1)}
                 </button>
                 <span
-                  className={`relative w-1/2 py-1 h-1 rounded-t-lg animate-fade-in transition-colors duration-500 ${
+                  className={`relative w-1/2 py-1 h-1 rounded-t-lg animate-fade-in transition-colors ${
                     isSelected
                       ? 'bg-cardinal shadow-[0_0px_12px_0px_rgba(196,30,58,0.5)]'
                       : 'bg-transparent'

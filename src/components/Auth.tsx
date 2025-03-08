@@ -56,8 +56,8 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-6">
-      <div className="bg-gray-900 p-8 rounded-lg shadow-xl max-w-md w-full">
+    <div className="min-h-screen bg-dark flex items-center justify-center p-6">
+      <div className="bg-darker p-8 rounded-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-white mb-6">
           {isSignUp ? 'Create an account' : 'Sign in to your account'}
         </h2>
@@ -72,7 +72,7 @@ export default function Auth() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2"
+              className="mt-1 block w-full rounded-md bg-dark border-gray-700 text-white px-3 py-2"
               required
             />
           </div>
@@ -86,7 +86,7 @@ export default function Auth() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2"
+              className="mt-1 block w-full rounded-md bg-dark border-gray-700 text-white px-3 py-2"
               required
               minLength={6}
             />
@@ -105,7 +105,7 @@ export default function Auth() {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors"
+            className="w-full py-2 px-4 bg-cardinal hover:bg-cardinal/50 text-white rounded-md transition-colors"
           >
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </button>
