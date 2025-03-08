@@ -135,10 +135,10 @@ const Calendar = ({ sportsList }: CalendarProps) => {
   };
 
   const getSessionsForDay = (day: number): Session[] => {
-    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-      .toISOString()
-      .split('T')[0];
-    return sessions.filter((session) => session.date === date);
+    const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1);
+    date.setHours(0, 0, 0, 0); // Set time to midnight for accurate comparison
+    const dateString = date.toISOString().split('T')[0];
+    return sessions.filter((session) => session.date === dateString);
   };
 
   return (
