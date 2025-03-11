@@ -45,8 +45,8 @@ function App() {
   return (
     <div className="flex min-h-screen bg-primary text-white">
       {/* Sidebar */}
-      <div className="md:w-64 w-32 bg-darker p-6 flex flex-col fixed h-screen items-center top-0 border-r border-r-white/20 rounded-r-lg">
-        <nav className="space-y-4 items-center flex flex-col mb-auto pt-20"> 
+      <div className="md:w-64 h-16 md:h-screen w-screen md:top-0 bottom-0 bg-darker md:p-6 py-4 flex md:flex-col flex-row fixed items-start md:items-center justify-center md:border-r border-t md:border-r-white/20 border-t-white/20 md:rounded-r-lg rounded-t-lg z-20">
+        <nav className="md:space-y-4 md:items-center justify-start flex md:flex-col flex-row md:mb-auto md:pt-20"> 
           <button
             onClick={() => setActiveTab('calendar')}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
@@ -70,7 +70,7 @@ function App() {
             <span>Sport Recap</span>
           </button>
         </nav>
-        <div className="mt-auto items-center">
+        <div className="md:mt-auto md:items-center">
           <button
             onClick={() => signOut()}
             className="flex items-center space-x-2 px-4 py-2 rounded-lg md:text-xl text-gray-400 hover:bg-cardinal hover:text-white transition-colors duration-300"
@@ -82,7 +82,7 @@ function App() {
       </div>
   
       {/* Main Content */}
-      <div className="flex-1 md:ml-64 ml-32 items-center">
+      <div className="flex-1 md:ml-64 items-center">
         <h1
           className="md:text-5xl text-3xl font-bold mb-1 pt-10 text-center"
           style={{
