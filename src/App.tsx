@@ -45,14 +45,14 @@ function App() {
   return (
     <div className="flex min-h-screen bg-primary text-white">
       {/* Sidebar */}
-      <div className="w-64 bg-darker p-6 flex flex-col fixed h-screen items-center top-0 border-r border-r-white/20 rounded-r-xl">
+      <div className="md:w-64 w-32 bg-darker p-6 flex flex-col fixed h-screen items-center top-0 border-r border-r-white/20 rounded-r-lg">
         <nav className="space-y-4 items-center flex flex-col mb-auto pt-20"> 
           <button
             onClick={() => setActiveTab('calendar')}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
               activeTab === 'calendar'
-                ? 'text-white text-xl'
-                : 'text-white/30 text-xl'
+                ? 'text-white md:text-xl'
+                : 'text-white/30 md:text-xl'
             }`}
           >
             <CalendarIcon className="w-5 h-5" />
@@ -62,8 +62,8 @@ function App() {
             onClick={() => setActiveTab('recap')}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
               activeTab === 'recap'
-                ? 'text-white text-xl'
-                : 'text-white/30 text-xl'
+                ? 'text-white md:text-xl'
+                : 'text-white/30 md:text-xl'
             }`}
           >
             <Activity className="w-5 h-5" />
@@ -73,7 +73,7 @@ function App() {
         <div className="mt-auto items-center">
           <button
             onClick={() => signOut()}
-            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xl text-gray-400 hover:bg-cardinal hover:text-white transition-colors duration-300"
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg md:text-xl text-gray-400 hover:bg-cardinal hover:text-white transition-colors duration-300"
           >
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>
@@ -82,9 +82,9 @@ function App() {
       </div>
   
       {/* Main Content */}
-      <div className="flex-1 p-6 ml-64 mt-0 items-center">
+      <div className="flex-1 md:ml-64 ml-32 items-center">
         <h1
-          className="text-5xl font-bold mb-6 p-10 text-center"
+          className="md:text-5xl text-3xl font-bold mb-1 pt-10 text-center"
           style={{
             textShadow:
               '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.15)',
@@ -97,7 +97,7 @@ function App() {
             year: 'numeric',
           })}
         </h1>
-        <div className="max-w-6xl mx-auto">
+        <div className="mx-auto">
           {activeTab === 'calendar' ? (
             <Calendar sportsList={sportsList} />
           ) : (

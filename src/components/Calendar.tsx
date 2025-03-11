@@ -142,9 +142,9 @@ const Calendar = ({ sportsList }: CalendarProps) => {
   };
 
   return (
-    <div className="p-6 bg-darker rounded-lg border border-white/20">
+    <div className="pl-8 pr-8 flex-1 ">
       {/* Button to open the modal */}
-      <div className="flex mb-4">
+      <div className="flex mb-4 ml-4 md:mt-0 mt-4">
         <button
           onClick={() => setIsAddingSession(true)}
           className="bg-cardinal text-white font-bold rounded px-4 py-2 hover:bg-white hover:text-black transition-colors"
@@ -272,16 +272,16 @@ const Calendar = ({ sportsList }: CalendarProps) => {
       )}
 
       {/* Calendar grid with days of the week and sessions */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-1 items-center justify-center bg-darker rounded-lg border border-white/20 p-4">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div key={day} className="text-center py-2 text-gray-400 font-semibold">
+          <div key={day} className="text-center text-gray-400 font-semibold">
             {day}
           </div>
         ))}
         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
           <div
             key={`empty-${index}`}
-            className="h-32 w-32 bg-dark rounded-lg p-2 m-2 transition-colors overflow-y-auto"
+            className="md:h-48 md:w-48 h-12 w-12 bg-dark rounded-lg p-2 m-2 transition-colors overflow-hidden"
           />
         ))}
         {Array.from({ length: daysInMonth }).map((_, index) => {
@@ -292,12 +292,12 @@ const Calendar = ({ sportsList }: CalendarProps) => {
           return (
             <div
               key={day}
-              className={`h-32 w-32 rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-y-auto border border-white/10 hover:border-cardinal ${
+              className={`md:h-48 md:w-48 h-12 w-12 rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-hidden border border-white/10 hover:border-cardinal ${
                 isToday ? 'bg-cardinal/50' : 'bg-dark'
               }`}
             >
               <div className="text-gray-400 absolute ml-2 mt-1 z-0">{day}</div>
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 p-4 place-items-center">
+              <div className="grid grid-cols-2 grid-rows-2 gap-2 p-4 place-items-center overflow-hidden">
                 {daySessions.map((session) => {
                   const sport = sportsList.find((s) => s.id === session.sport_id);
                   return (
@@ -312,7 +312,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
                           notes: session.notes || '',
                         });
                       }}
-                      className="text-xs bg-darker m-0 text-center rounded-full w-10 h-10 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
+                      className="md:text-3xl bg-darker m-2 text-center rounded-full md:w-16 md:h-16 w-4 h-4 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
                     >
                       {sport?.emoji}
                     </button>
@@ -325,7 +325,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
 
       </div>
       {/* Footer with navigation buttons */}
-      <div className="flex pt-2">
+      <div className="flex p-8">
         <button onClick={prevMonth} className="p-2 hover:bg-cardinal rounded-full mr-auto">
           <ChevronLeft className="w-5 h-5 text-gray-400" />
         </button>

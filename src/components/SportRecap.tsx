@@ -61,7 +61,7 @@ const SportRecap = ({ sportsList }: SportRecapProps) => {
   }, [sessions]);
 
   return (
-    <div className="p-6 bg-darker rounded-lg border border-white/20">
+    <div className="p-6 m-8 mt-16 bg-darker rounded-lg border border-white/20 ">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-4">
           <Activity className="w-6 h-6 text-cardinal" />
