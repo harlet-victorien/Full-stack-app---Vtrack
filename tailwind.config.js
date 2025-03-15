@@ -19,6 +19,13 @@ export default {
         180: '45rem',
         200: '50rem',
       },
+      screens: {
+        'dou': '125rem',
+      },
+      margin: {
+        '1/6': '16.6667%',
+        '1/5': '20%',
+      },
     },
   },
   plugins: [],

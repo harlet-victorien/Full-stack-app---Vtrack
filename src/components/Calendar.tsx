@@ -281,7 +281,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
         {Array.from({ length: firstDayOfMonth }).map((_, index) => (
           <div
             key={`empty-${index}`}
-            className="md:h-48 md:w-48 h-12 w-12 bg-dark rounded-lg p-2 m-2 transition-colors overflow-hidden"
+            className="dou:h-48 dou:w-48 md:h-36 md:w-36 h-12 w-12 bg-dark rounded-lg p-2 m-2 transition-colors overflow-hidden"
           />
         ))}
         {Array.from({ length: daysInMonth }).map((_, index) => {
@@ -292,7 +292,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
           return (
             <div
               key={day}
-              className={`md:h-48 md:w-48 h-12 w-12 rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-hidden border border-white/10 hover:border-cardinal ${
+              className={`dou:h-48 dou:w-48 md:h-36 md:w-36 h-12 w-12 rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-hidden border border-white/10 hover:border-cardinal ${
                 isToday ? 'bg-cardinal/50' : 'bg-dark'
               }`}
             >
@@ -312,7 +312,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
                           notes: session.notes || '',
                         });
                       }}
-                      className="md:text-3xl bg-darker m-2 text-center rounded-full md:w-16 md:h-16 w-4 h-4 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
+                      className="2000:text-3xl md:text-2xl bg-darker m-2 text-center rounded-full md:w-12 md:h-12 w-4 h-4 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
                     >
                       {sport?.emoji}
                     </button>
