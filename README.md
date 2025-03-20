@@ -1,3 +1,6 @@
+## Full stack project with React, Vite, TypeScript, TailwindCSS, Supabase
+## Sport sessions tracking app
+---
 # Vtrack, never stop.
 ## Keep track of your sport sessions in the calendar
 ![image](https://github.com/harlet-victorien/Vtrack/blob/master/img/calendar.png)
