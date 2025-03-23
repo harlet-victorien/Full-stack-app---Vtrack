@@ -107,7 +107,9 @@ function App() {
             month: 'long',
             day: 'numeric',
             year: 'numeric',
-          })}
+          }).split(' ').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+          ).join(' ')}
         </h1>
         <div className="mx-auto">
         {activeTab === 'calendar' ? (
