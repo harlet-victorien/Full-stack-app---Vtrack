@@ -144,7 +144,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
   return (
     <div className="pl-8 pr-8 flex-1 ">
       {/* Button to open the modal */}
-      <div className="flex mb-4 ml-4 md:mt-0 mt-4">
+      <div className="flex mb-4 ml-0 md:mt-0 mt-4">
         <button
           onClick={() => setIsAddingSession(true)}
           className="bg-cardinal text-white font-bold rounded px-4 py-2 hover:bg-white hover:text-black transition-colors"

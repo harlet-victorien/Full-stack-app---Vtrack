@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar as CalendarIcon, Activity, LogOut } from 'lucide-react';
+import { Calendar as CalendarIcon, Activity, LogOut, Utensils } from 'lucide-react';
 import Calendar from './components/Calendar';
 import SportRecap from './components/SportRecap';
+import FoodTracker from './components/FoodTracker';
 import Auth from './components/Auth';
 import { supabase } from './lib/supabase';
 import { useAuth } from './contexts/AuthContext';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'calendar' | 'recap'>('calendar');
+  const [activeTab, setActiveTab] = useState<'calendar' | 'recap' | 'food'>('calendar');
   const { user, loading, signOut } = useAuth();
   const [sportsList, setSportsList] = useState<{ id: string; name: string; emoji: string }[]>([]);
   
@@ -69,6 +70,17 @@ function App() {
             <Activity className="w-5 h-5" />
             <span>Sport Recap</span>
           </button>
+          <button
+            onClick={() => setActiveTab('food')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${
+              activeTab === 'food'
+                ? 'text-white md:text-xl'
+                : 'text-white/30 md:text-xl'
+            }`}
+          >
+            <Utensils className="w-5 h-5" />
+            <span>Food Score</span>
+          </button>
         </nav>
         <div className="md:mt-auto md:items-center">
           <button
@@ -98,11 +110,13 @@ function App() {
           })}
         </h1>
         <div className="mx-auto">
-          {activeTab === 'calendar' ? (
-            <Calendar sportsList={sportsList} />
-          ) : (
-            <SportRecap sportsList={sportsList} />
-          )}
+        {activeTab === 'calendar' ? (
+          <Calendar sportsList={sportsList} />
+        ) : activeTab === 'recap' ? (
+          <SportRecap sportsList={sportsList} />
+        ) : (
+          <FoodTracker />
+        )}
         </div>
       </div>
     </div>
