@@ -142,9 +142,9 @@ const Calendar = ({ sportsList }: CalendarProps) => {
   };
 
   return (
-    <div className="pl-8 pr-8 flex-1 ">
+    <div className="px-4 md:px-8 flex-1 w-full max-w-full overflow-x-hidden">
       {/* Button to open the modal */}
-      <div className="flex mb-4 ml-0 md:mt-0 mt-4">
+      <div className="flex mb-4 mt-4">
         <button
           onClick={() => setIsAddingSession(true)}
           className="bg-cardinal text-white font-bold rounded px-4 py-2 hover:bg-white hover:text-black transition-colors"
@@ -271,70 +271,99 @@ const Calendar = ({ sportsList }: CalendarProps) => {
         </div>
       )}
 
-      {/* Calendar grid with days of the week and sessions */}
-      <div className="grid grid-cols-7 gap-1 items-center justify-center bg-darker rounded-lg border border-white/20 p-4">
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div key={day} className="text-center text-gray-400 font-semibold">
-            {day}
-          </div>
-        ))}
-        {Array.from({ length: firstDayOfMonth }).map((_, index) => (
+    {/* Calendar grid with days of the week and sessions */}
+    <div className="grid grid-cols-7 gap-2 md:gap-3 bg-darker rounded-lg border border-white/20 p-3 md:p-5 overflow-hidden">
+      {/* Day headers */}
+      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+        <div key={day} className="text-center text-gray-400 font-semibold text-xs md:text-sm pb-2">
+          {day}
+        </div>
+      ))}
+      
+      {/* Empty cells for first day alignment */}
+      {Array.from({ length: firstDayOfMonth }).map((_, index) => (
+        <div
+          key={`empty-${index}`}
+          className="aspect-square bg-dark/50 rounded-lg transition-colors"
+        />
+      ))}
+      
+      {/* Calendar days */}
+      {Array.from({ length: daysInMonth }).map((_, index) => {
+        const day = index + 1;
+        const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        const isToday = dayDate.getTime() === today.getTime();
+        const daySessions = getSessionsForDay(day);
+        
+        return (
           <div
-            key={`empty-${index}`}
-            className="dou:h-48 dou:w-48 md:h-36 md:w-36 h-12 w-12 bg-dark rounded-lg p-2 m-2 transition-colors overflow-hidden"
-          />
-        ))}
-        {Array.from({ length: daysInMonth }).map((_, index) => {
-          const day = index + 1;
-          const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-          const isToday = dayDate.getTime() === today.getTime();
-          const daySessions = getSessionsForDay(day);
-          return (
-            <div
-              key={day}
-              className={`dou:h-48 dou:w-48 md:h-36 md:w-36 h-12 w-12 rounded-lg m-2 hover:bg-cardinal transition-colors duration-500 overflow-hidden border border-white/10 hover:border-cardinal ${
-                isToday ? 'bg-cardinal/50' : 'bg-dark'
-              }`}
-            >
-              <div className="text-gray-400 absolute ml-2 mt-1 z-0">{day}</div>
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 p-4 place-items-center overflow-hidden">
-                {daySessions.map((session) => {
-                  const sport = sportsList.find((s) => s.id === session.sport_id);
-                  return (
-                    <button
-                      key={session.id}
-                      onClick={() => {
-                        setEditingSession(session);
-                        setFormData({
-                          date: session.date,
-                          sport_id: session.sport_id,
-                          duration: session.duration,
-                          notes: session.notes || '',
-                        });
-                      }}
-                      className="2000:text-3xl md:text-2xl bg-darker m-2 text-center rounded-full md:w-12 md:h-12 w-4 h-4 flex items-center justify-center group hover:bg-white hover:text-black transition-colors duration-500 overflow-hidden"
-                    >
-                      {sport?.emoji}
-                    </button>
-                  );
-                })}
-              </div>
+            key={day}
+            className={`aspect-square relative rounded-lg hover:bg-cardinal transition-colors duration-500 border hover:border-cardinal ${
+              isToday ? 'bg-cardinal/50 border-cardinal' : 'bg-dark border-white/10'
+            }`}
+          >
+            {/* Day number */}
+            <div className="absolute top-1 left-1 text-gray-400 text-xs md:text-sm">
+              {day}
             </div>
-          );
-        })}
-
-      </div>
-      {/* Footer with navigation buttons */}
-      <div className="flex p-8">
-        <button onClick={prevMonth} className="p-2 hover:bg-cardinal rounded-full mr-auto">
-          <ChevronLeft className="w-5 h-5 text-gray-400" />
-        </button>
-        <button onClick={nextMonth} className="p-2 hover:bg-cardinal rounded-full">
-          <ChevronRight className="w-5 h-5 text-gray-400 mr-0" />
-        </button>
-      </div>
+            
+            {/* Session emojis */}
+            <div className="absolute inset-0 pt-5 grid grid-cols-2 grid-rows-2 gap-1 place-items-center">
+              {daySessions.slice(0, 4).map((session) => {
+                const sport = sportsList.find((s) => s.id === session.sport_id);
+                return (
+                  <button
+                    key={session.id}
+                    onClick={() => {
+                      setEditingSession(session);
+                      setFormData({
+                        date: session.date,
+                        sport_id: session.sport_id,
+                        duration: session.duration,
+                        notes: session.notes || '',
+                      });
+                    }}
+                    className="w-[70%] aspect-square bg-darker flex items-center justify-center rounded-full hover:bg-white hover:text-black transition-colors duration-300"
+                  >
+                    <span className="text-sm md:text-base lg:text-lg">
+                      {sport?.emoji}
+                    </span>
+                  </button>
+                );
+              })}
+              
+              {/* If there are more than 4 sessions, show a +X indicator */}
+              {daySessions.length > 4 && (
+                <div className="text-xs md:text-sm text-cardinal font-bold">
+                  +{daySessions.length - 4}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
-  );
-};
+
+    {/* Footer with navigation buttons */}
+    <div className="flex justify-between p-4 md:p-6 mt-3">
+      <button 
+        onClick={prevMonth} 
+        className="p-2 hover:bg-cardinal rounded-full transition-colors"
+      >
+        <ChevronLeft className="w-5 h-5 text-gray-400" />
+      </button>
+      <div className="text-gray-500 font-medium uppercase">
+        {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+      </div>
+      <button 
+        onClick={nextMonth} 
+        className="p-2 hover:bg-cardinal rounded-full transition-colors"
+      >
+        <ChevronRight className="w-5 h-5 text-gray-400" />
+      </button>
+    </div>
+        </div>
+      );
+    }
 
 export default Calendar;
