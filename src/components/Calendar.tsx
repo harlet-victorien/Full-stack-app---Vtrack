@@ -323,9 +323,10 @@ const Calendar = ({ sportsList }: CalendarProps) => {
                         notes: session.notes || '',
                       });
                     }}
-                    className="w-[70%] aspect-square bg-darker flex items-center justify-center rounded-full hover:bg-white hover:text-black transition-colors duration-300"
+                    className="w-[60%] aspect-square bg-darker flex items-center justify-center rounded-full hover:bg-white hover:text-black transition-colors duration-300"
                   >
-                    <span className="text-sm md:text-base lg:text-lg">
+                    {/* Linear text scaling using vw units for truly responsive sizing */}
+                    <span className="text-[1.5vw]">
                       {sport?.emoji}
                     </span>
                   </button>
@@ -334,7 +335,7 @@ const Calendar = ({ sportsList }: CalendarProps) => {
               
               {/* If there are more than 4 sessions, show a +X indicator */}
               {daySessions.length > 4 && (
-                <div className="text-xs md:text-sm text-cardinal font-bold">
+                <div className="text-[min(2.5vw,0.9rem)] text-cardinal font-bold">
                   +{daySessions.length - 4}
                 </div>
               )}
